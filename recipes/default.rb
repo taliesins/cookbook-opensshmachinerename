@@ -11,7 +11,7 @@ powershell_script 'Invoke-MkPasswd' do
 $ErrorActionPreference="Stop"   
 $passwdPath = '#{node['opensshmachinerename']['PasswdPath']}'
 $mkPasswdPath = '#{node['opensshmachinerename']['MkPasswdPath']}'
-&$mkPasswdPath -l > $passwdPath
+&$mkPasswdPath -l -c > $passwdPath
 
 EOH1
     
@@ -21,7 +21,7 @@ $passwdPath = '#{node['opensshmachinerename']['PasswdPath']}'
 $mkPasswdPath = '#{node['opensshmachinerename']['MkPasswdPath']}'
 
 $passwdOld = [IO.File]::ReadAllText($passwdPath)
-$passwdNew = &$mkPasswdPath -l  | Out-String
+$passwdNew = &$mkPasswdPath -l -c | Out-String
 
 $result = $true
 if ($passwdOld -eq $passwdNew){
@@ -38,7 +38,7 @@ powershell_script 'Invoke-MakeGroup' do
 $ErrorActionPreference="Stop"   
 $groupPath = '#{node['opensshmachinerename']['GroupPath']}'
 $mkGroupPath = '#{node['opensshmachinerename']['MkGroupPath']}'
-&$mkGroupPath -l > $groupPath
+&$mkGroupPath -l -c > $groupPath
 
 EOH1
     
@@ -48,7 +48,7 @@ $groupPath = '#{node['opensshmachinerename']['GroupPath']}'
 $mkGroupPath = '#{node['opensshmachinerename']['MkGroupPath']}'
 
 $groupOld = [IO.File]::ReadAllText($groupPath)
-$groupNew = &$mkGroupPath -l  | Out-String
+$groupNew = &$mkGroupPath -l -c | Out-String
 
 $result = $true
 if ($groupOld -eq $groupNew){
