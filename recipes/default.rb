@@ -5,7 +5,7 @@
 # Copyright 2015, Taliesin Sisson
 #
 
-powershell_script 'Update-Passwd' do
+powershell_script 'Invoke-MkPasswd' do
     guard_interpreter :powershell_script
     code <<-EOH1    
 $ErrorActionPreference="Stop"   
@@ -25,6 +25,33 @@ $passwdNew = &$mkPasswdPath -l  | Out-String
 
 $result = $true
 if ($passwdOld -eq $passwdNew){
+  $result = $false
+}
+return $result
+EOH2
+    action :run
+end
+
+powershell_script 'Invoke-MakeGroup' do
+    guard_interpreter :powershell_script
+    code <<-EOH1    
+$ErrorActionPreference="Stop"   
+$groupPath = '#{node['opensshmachinerename']['GroupPath']}'
+$mkGroupPath = '#{node['opensshmachinerename']['MkGroupPath']}'
+&$mkGroupPath -l > $groupPath
+
+EOH1
+    
+    only_if <<-EOH2
+$ErrorActionPreference="Stop"
+$groupPath = '#{node['opensshmachinerename']['GroupPath']}'
+$mkGroupPath = '#{node['opensshmachinerename']['MkGroupPath']}'
+
+$groupOld = [IO.File]::ReadAllText($groupPath)
+$groupNew = &$mkGroupPath -l  | Out-String
+
+$result = $true
+if ($groupOld -eq $groupNew){
   $result = $false
 }
 return $result

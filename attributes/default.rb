@@ -19,3 +19,5 @@
 
 default['opensshmachinerename']['PasswdPath'] = 'c:\program files\openssh\etc\passwd'
 default['opensshmachinerename']['MkPasswdPath'] = 'c:\program files\openssh\bin\mkpasswd.exe'
+default['opensshmachinerename']['GroupPath'] = 'c:\program files\openssh\etc\group'
+default['opensshmachinerename']['MkGroupPath'] = 'c:\program files\openssh\bin\mkgroup.exe'
